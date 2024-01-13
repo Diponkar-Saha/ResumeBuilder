@@ -1,0 +1,165 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadia Sultana - Curriculum Vitae</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <link href="~/css/templatethree.css" rel="stylesheet" />
+    @{
+        Layout = null;
+    }
+</head>
+<body>
+      <div class="mkp_container" id="main-container">
+            <div class="row justify-content-end">
+                <div class="col-md-3">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Change CV
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var items in @ViewBag.templates)
+                            {
+                                <a class="dropdown-item" asp-controller="Resume" asp-action="ChangeTemplate" asp-route-temp="@items.Id" asp-route-tempId="1" target="_blank">@items.TemplateName</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+    <div class="container">
+        <header>
+            <img src="~/images/@ViewBag.Introduction.ImageURL" alt="Profile Picture" class="profile-picture">
+            <h1>@ViewBag.Introduction.IntroName</h1>
+            <p>@ViewBag.Introduction.IntroContact | @ViewBag.Introduction.IntroAddress</p>
+        </header>
+        @foreach (var social in ViewBag.Introduction.SocialMediaList)
+        {
+            <div class="contact-info">
+                <p>@social.SocialMediaName <a style="font-size:16px; text-decoration:none;" href="@social.LinkOrText">@social.LinkOrText</a></p>
+
+            </div>
+        }
+        <div class="summary">
+            <h3 class="section-title">Summary</h3>
+            <p>
+                @ViewBag.ProfessionalSummary.ProfessionalSummary
+            </p>
+        </div>
+
+        <hr>
+        <div class="experience">
+            <h3 class="section-title">Experience</h3>
+            @foreach (var workExperience in ViewBag.WorkExperiences)
+            {
+                <h5>@workExperience.JobTitle</h5>
+                <p>@workExperience.Company | @workExperience.StartDate</p>
+                <ul>
+                    @foreach (var descriptionItem in workExperience.DescriptionItems)
+                    {
+                        <li>@descriptionItem.Description</li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <hr>
+
+        <div class="skills">
+            <h3 class="section-title">Skills</h3>
+            <ul class="skills-list">
+                @foreach (var Skills in ViewBag.Skills)
+                {
+                    <li class="skill">@Skills.Description</li>
+                }
+
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="education">
+            <h3 class="section-title">Education</h3>
+            @foreach (var Education in ViewBag.Education)
+            {
+                <h5>@Education.Degree</h5>
+                <p>@Education.Institution |@Education.GraduationYear</p>
+                <p>CGPA: @Education.CGPA</p>
+            }
+
+        </div>
+
+        <hr>
+
+        <div class="certifications">
+            <h3 class="section-title">Certifications</h3>
+            <ul>
+                @foreach (var ProfessionalTraining in ViewBag.ProfessionalTraining.TrainingItemList)
+                {
+                    <li>@ProfessionalTraining.Description</li>
+
+                }
+
+
+            </ul>
+        </div>
+
+    </div>
+
+        <div>
+            <button class="btn btn-danger" id="pdfdownload"> PDF</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Share Resume
+              </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Copy the link and share your resume</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @ViewBag.SheareLink
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        @section scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.es.js"
+        integrity="sha512-VTufZOUx+Gc0N4JkluA0ZkVs2x4wfDI3p60gRWpHT761kMQ+hiNlYI+8MGXbLO48ymPKAeRa1wsEm3BIaxSEvw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.js"
+        integrity="sha512-Bw9Zj8x4giJb3OmlMiMaGbNrFr0ERD2f9jL3en5FmcTXLhkI+fKyXVeyGyxKMIl1RfgcCBDprJJt4JvlglEb3A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.es.js"
+        integrity="sha512-ccZBwXP6zByd5l4Iz6y7Vu2iqGo6t2hwGEuLauWKmTb7AtwhwmqnCr7yvbZBIZxUtH3a1BDaNJz8/MrnpZl8wA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"
+        integrity="sha512-gmqJDkLpXOuVrRDAQa8pWc+WReEL4hO0f07hcCjx9bayyt5YENnZP2MgeSgo5CaUb3feZu/JCEKf69EsFZcQhA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js"></script>
+   <script src="//cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+   
+  
+    <script src="~/js/cv-builder-pdf.js"></script>
+    }
+</body>
+</html>

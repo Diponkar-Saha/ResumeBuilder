@@ -1,0 +1,294 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en" style="font-size: 10.0pt;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Resume Template</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    @{
+        Layout = null;
+    }
+
+    <link href="~/css/template-two.css" rel="stylesheet" />
+</head>
+<body class="templatebody mt-2">
+    <main class="bg-white templatecontainer container mt-2">
+
+        <div class="mkp_container" id="main-container">
+            <div class="row justify-content-end">
+                <div class="col-md-3">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Change CV
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var items in @ViewBag.templates)
+                            {
+                                <a class="dropdown-item" asp-controller="Resume" asp-action="ChangeTemplate" asp-route-temp="@items.Id" asp-route-tempId="1" target="_blank">@items.TemplateName</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+        <!-- Personal Information Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <img src="~/images/@ViewBag.Introduction.ImageURL" class="w-100 h-100 mx-auto d-block" />
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <h1 style="color: #566c7a; font-size:46px; font-family: Calibri, serif;"><strong>@ViewBag.Introduction.IntroName </strong></h1> 
+                    <p class="mb-1 fw-bold" style="color: #566c7a; font-family: Calibri, serif;">@ViewBag.Introduction.IntroContact</p>
+                    <p class="mb-1 fw-bold" style="color: #566c7a; font-family: Calibri, serif;">@ViewBag.Introduction.IntroEmail</p>
+                    @foreach (var social in ViewBag.Introduction.SocialMediaList)
+                    {
+
+                        <p class="mb-1">
+                            <a href="@social.LinkOrText" class="link" style="text-decoration:none;">
+                                <span class="fw-bold" style="font-size: 1.00rem; font-family: Calibri, serif; color: #566c7a;">@social.LinkOrText</span>
+                            </a>
+                        </p>
+                    }
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider Section -->
+        <section>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAALCAIAAAAIglSPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAWUlEQVRoge3TsQmAMBRAQSOu7AwO4HQ2ghtIolYRHEB+nRR3E7zmpXlZz1wG4Gcq95Ovu3UG9GhsHQD9sgeE7AEhe0DIHhCyB4TsASF7QCht+1Hr2zoDevQBXocPwVLUf6YAAAAASUVORK5CYII=" class="ms-3 mt-2 mx-auto d-block" />
+            <svg viewbox="0.00000, 0.000000, 580.300000, 1.000000" style="width: 54.53rem;" class="ms-3 graphic mx-auto">
+                <path stroke-width="0.750000" fill="none" d="M 0 0 L 535.3 0.5" stroke="#566c7a" stroke-opacity="1.000000" />
+            </svg>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3">
+                    <h5 class="fw-bold">Summary</h5>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-9 mt-3">
+                    <p style="text-align: justify; text-justify: distribute; line-height: 1.4;">
+                        @ViewBag.ProfessionalSummary.ProfessionalSummary
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Divider Section -->
+        <section>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAALCAIAAAAIglSPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAWUlEQVRoge3TsQmAMBRAQSOu7AwO4HQ2ghtIolYRHEB+nRR3E7zmpXlZz1wG4Gcq95Ovu3UG9GhsHQD9sgeE7AEhe0DIHhCyB4TsASF7QCht+1Hr2zoDevQBXocPwVLUf6YAAAAASUVORK5CYII=" class="ms-3  mx-auto d-block" />
+            <svg viewbox="0.00000, 0.000000, 580.300000, 1.000000" style="width: 54.53rem;" class="ms-3 graphic mx-auto">
+                <path stroke-width="0.750000" fill="none" d="M 0 0 L 535.3 0.5" stroke="#566c7a" stroke-opacity="1.000000" />
+            </svg>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3">
+                    <h5 class="fw-bold">EXPERIENCE</h5>
+                </div>
+                <div style="line-height:0.8;" class="col-md-9 col-lg-9 col-sm-9 mt-3">
+                    @for (int i = 0; i < ViewBag.WorkExperiences.Count; i++)
+                    {
+                        var workExperience = ViewBag.WorkExperiences[i];
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-bold">@workExperience.JobTitle</p>
+                                </div>
+                                <div>
+                                    <p>@workExperience.StartDate</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="fw-bold">@workExperience.Company</p>
+                            </div>
+                            <div>
+                                <ul>
+                                    @foreach (var descriptionItem in workExperience.DescriptionItems)
+                                    {
+                                        <li style="text-align: justify; text-justify: distribute; line-height: 1.4;">
+                                            @descriptionItem.Description
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        @if (i < ViewBag.WorkExperiences.Count - 1)
+                        {
+                            <hr style="border: 1px solid #566c7a;">
+                        }
+                    }
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Divider Section -->
+        <section>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAALCAIAAAAIglSPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAWUlEQVRoge3TsQmAMBRAQSOu7AwO4HQ2ghtIolYRHEB+nRR3E7zmpXlZz1wG4Gcq95Ovu3UG9GhsHQD9sgeE7AEhe0DIHhCyB4TsASF7QCht+1Hr2zoDevQBXocPwVLUf6YAAAAASUVORK5CYII=" class="ms-3 mx-auto d-block" />
+            <svg viewbox="0.00000, 0.000000, 580.300000, 1.000000" style="width: 54.53rem;" class="ms-3 graphic mx-auto">
+                <path stroke-width="0.750000" fill="none" d="M 0 0 L 535.3 0.5" stroke="#566c7a" stroke-opacity="1.000000" />
+            </svg>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3">
+                    <h5 class="fw-bold">SKILLS</h5>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-9 mt-3">
+                    <div class="row">
+                        @for (int i = 0; i < ViewBag.Skills.Count; i += 2)
+                        {
+                            <div class="col-md-4 col-sm-6">
+                                <ul>
+                                    <li>@ViewBag.Skills[i].Description</li>
+                                    @if (i + 1 < ViewBag.Skills.Count)
+                                    {
+                                        <li>@ViewBag.Skills[i + 1].Description</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider Section -->
+        <section>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAALCAIAAAAIglSPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAWUlEQVRoge3TsQmAMBRAQSOu7AwO4HQ2ghtIolYRHEB+nRR3E7zmpXlZz1wG4Gcq95Ovu3UG9GhsHQD9sgeE7AEhe0DIHhCyB4TsASF7QCht+1Hr2zoDevQBXocPwVLUf6YAAAAASUVORK5CYII=" class="ms-3  mx-auto d-block" />
+            <svg viewbox="0.00000, 0.000000, 580.300000, 1.000000" style="width: 54.53rem;" class="ms-3 graphic mx-auto">
+                <path stroke-width="0.750000" fill="none" d="M 0 0 L 535.3 0.5" stroke="#566c7a" stroke-opacity="1.000000" />
+            </svg>
+        </section>
+
+        <!-- Education Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3">
+                    <h5 class="fw-bold">EDUCATION</h5>
+                </div>
+                <div style="line-height:0.8" class="col-md-9 col-lg-9 col-sm-9 mt-3">
+                    @for (int i = 0; i < ViewBag.Education.Count; i++)
+                    {
+                        var Education = ViewBag.Education[i];
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <div style="line-height:1.8">
+                                    <p class="fw-bold">@Education.Degree</p>
+                                </div>
+                                <div class="mt-2">
+                                    <p>@Education.GraduationYear</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p>@Education.Institution</p>
+                                <p>CGPA: @Education.CGPA</p>
+                            </div>
+                        </div>
+                        @if (i < ViewBag.Education.Count - 1)
+                        {
+                            <hr style="border: 1px dotted #566c7a;">
+                        }
+                    }
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Divider Section -->
+        <section>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAALCAIAAAAIglSPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAWUlEQVRoge3TsQmAMBRAQSOu7AwO4HQ2ghtIolYRHEB+nRR3E7zmpXlZz1wG4Gcq95Ovu3UG9GhsHQD9sgeE7AEhe0DIHhCyB4TsASF7QCht+1Hr2zoDevQBXocPwVLUf6YAAAAASUVORK5CYII=" class="ms-3  mx-auto d-block" />
+            <svg viewbox="0.00000, 0.000000, 580.300000, 1.000000" style="width: 54.53rem;" class="ms-3 graphic mx-auto">
+                <path stroke-width="0.750000" fill="none" d="M 0 0 L 535.3 0.5" stroke="#566c7a" stroke-opacity="1.000000" />
+            </svg>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="ms-3 me-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3">
+                    <h5 class="fw-bold">CERTIFICATIONS</h5>
+                </div>
+                <div class="col-md-9 col-lg-9 col-sm-9 mt-4">
+                    <div>
+                        <ul>
+                            @foreach (var ProfessionalTraining in ViewBag.ProfessionalTraining.TrainingItemList)
+                            {
+                                <li>@ProfessionalTraining.Description</li>
+
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+    <div>
+        <button class="btn btn-danger" id="pdfdownload"> PDF</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Share Resume
+              </button>
+        <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Copy the link and share your resume</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @ViewBag.SheareLink 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </main>
+
+     @section scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.es.js"
+        integrity="sha512-VTufZOUx+Gc0N4JkluA0ZkVs2x4wfDI3p60gRWpHT761kMQ+hiNlYI+8MGXbLO48ymPKAeRa1wsEm3BIaxSEvw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.js"
+        integrity="sha512-Bw9Zj8x4giJb3OmlMiMaGbNrFr0ERD2f9jL3en5FmcTXLhkI+fKyXVeyGyxKMIl1RfgcCBDprJJt4JvlglEb3A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.es.js"
+        integrity="sha512-ccZBwXP6zByd5l4Iz6y7Vu2iqGo6t2hwGEuLauWKmTb7AtwhwmqnCr7yvbZBIZxUtH3a1BDaNJz8/MrnpZl8wA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"
+        integrity="sha512-gmqJDkLpXOuVrRDAQa8pWc+WReEL4hO0f07hcCjx9bayyt5YENnZP2MgeSgo5CaUb3feZu/JCEKf69EsFZcQhA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js"></script>
+   <script src="//cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+   
+    <script src="~/js/cv-builder-pdf.js"></script>
+
+    }
+
+</body>
+</html>

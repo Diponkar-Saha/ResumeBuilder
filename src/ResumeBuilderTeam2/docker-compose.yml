@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cvbuilder.web:
+    image: ${DOCKER_REGISTRY-}cvbuilderweb
+    build:
+      context: .
+      dockerfile: CVBuilder.web/Dockerfile
